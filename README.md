@@ -3,8 +3,6 @@
 An interactive web-based fractal visualizer built with **Python (Flask + Matplotlib)**.  
 Allows users to explore complex mathematical structures like **Mandelbrot-like sets** and **Newton basins** by customizing input ranges and parameters.
 
-![screenshot](static/demo.png)
-
 ---
 
 ## ✨ Features
