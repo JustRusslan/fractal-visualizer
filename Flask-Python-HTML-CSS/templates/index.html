@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fractal Visualizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <form action="/draw" method="post">
+      {% if error %}<h1>{{ error }}</h1>{% else %}<h1>Fractal Visualizer</h1>{% endif %}
+
+      <label for="flactal">Fractal type:</label>
+      <select name="flactal" id="flactal">
+        {% for i in types %}
+        <option value="{{ i }}" {% if selected == i %}selected{% endif %}>{{ i }}</option>
+        {% endfor %}
+      </select>
+      <div class="description">Choose which type of fractal to draw.</div>
+
+      <label>Real axis (p):</label>
+      <input name="pmin" placeholder="pmin, e.g. -2.5">
+      <input name="pmax" placeholder="pmax, e.g. 1.5">
+      <div class="description">This controls the horizontal range of the complex plane.</div>
+
+      <label>Imaginary axis (q):</label>
+      <input name="qmin" placeholder="qmin, e.g. -2.0">
+      <input name="qmax" placeholder="qmax, e.g. 2.0">
+      <div class="description">This controls the vertical range of the complex plane.</div>
+
+      <label>Resolution:</label>
+      <input name="ppoints" placeholder="Vertical points, e.g. 200">
+      <input name="qpoints" placeholder="Horizontal points, e.g. 200">
+      <div class="description">How many points to calculate per direction. Higher = more detail, slower render.</div>
+
+      <label>Maximum iterations:</label>
+      <input name="max_iterations" placeholder="e.g. 300">
+      <div class="description">The number of steps to compute per point before assuming it doesn't diverge.</div>
+
+      <label>Infinity border (divergence threshold):</label>
+      <input name="infinity_border" placeholder="e.g. 10">
+      <div class="description">If a value exceeds this during calculation, it is treated as escaped to infinity.</div>
+
+      <input type="submit" value="Draw Fractal">
+    </form>
+
+    {% if summary %}
+    <div class="summary">
+      <h3>✨ Your Fractal Settings</h3>
+      <ul>
+        {% for key, value in summary.items() %}
+        <li><strong>{{ key.replace('_', ' ').capitalize() }}:</strong> {{ value }}</li>
+        {% endfor %}
+      </ul>
+      <p class="description">These are the parameters used to generate your current fractal image.</p>
+    </div>
+    {% endif %}
+
+    {% if data %}
+    <img src="data:image/png;base64,{{ data }}" alt="Generated Fractal">
+    {% endif %}
+  </div>
+</body>
+</html>
